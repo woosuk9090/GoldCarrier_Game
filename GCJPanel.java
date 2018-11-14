@@ -26,11 +26,9 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 	private int movingBall;
 		
 	private Timer t;
-	private Mover carrier;
-	private MonsterMover monsterM;
-	private MovingDoorA doorMA;
-	private MovingDoorB doorMB;
-	private MovingDoorC doorMC;
+	private GoldCarrier carrier;
+	private Monster monsterM;
+	private MovingDoor[] door;
 		
 	private Rectangle[] map;
 	private Rectangle gate;
@@ -57,11 +55,13 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 		setBackground(BACKGROUND);
 		
 		t = new Timer(20, this);
-		carrier = new Mover(40, 60);
-		monsterM = new MonsterMover(285, 165);
-		doorMA = new MovingDoorA(350, 210);
-		doorMB = new MovingDoorB(150, 210);
-		doorMC = new MovingDoorC(330, 50);
+		carrier = new GoldCarrier(1.6, 40, 60);
+		monsterM = new Monster(3, 285, 165);
+		
+		door = new MovingDoor[3];
+		door[0] = new MovingDoor(0.8, 350, 210, 40, 5);
+		door[1] = new MovingDoor(0.9, 150, 210, 40, 5);
+		door[2] = new MovingDoor(0.6, 330, 50, 80, 5);
 		
 		addKeyListener(this);
 		
@@ -114,15 +114,15 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 
 		carrier.move();
 		monsterM.move();
-		doorMA.move();
-		doorMB.move();
-		doorMC.move();
+		door[0].move();
+		door[1].move();
+		door[2].move();
 		
-		gold = new Rectangle((int)Mover.mouseX,(int)Mover.mouseY,10,10); 
-		monster = new Rectangle((int)MonsterMover.mouseX,(int)MonsterMover.mouseY,30,30);
-		doorA = new Rectangle((int)MovingDoorA.mouseX,(int)MovingDoorA.mouseY,40,5);
-		doorB = new Rectangle((int)MovingDoorB.mouseX,(int)MovingDoorB.mouseY,40,5);
-		doorC = new Rectangle((int)MovingDoorC.mouseX,(int)MovingDoorC.mouseY,80,5);
+		gold = new Rectangle((int)carrier.xCord,(int)carrier.yCord,10,10); 
+		monster = new Rectangle((int)monsterM.xCord,(int)monsterM.yCord,30,30);
+		doorA = new Rectangle((int)door[0].xCord,(int)door[0].yCord,40,5);
+		doorB = new Rectangle((int)door[1].xCord,(int)door[1].yCord,40,5);
+		doorC = new Rectangle((int)door[2].xCord,(int)door[2].yCord,80,5);
 		
 		for(int i = 0; i < map.length; i++){
 			
@@ -184,11 +184,11 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 		
 		if (doorA.intersects(map[11])) {
 			
-			doorMA.setDirection(1);
+			door[0].setDirection(1);
 			
 		} else if (doorA.intersects(map[15])) {
 		
-			doorMA.setDirection(0);
+			door[0].setDirection(0);
 		
 		}
 		
@@ -205,11 +205,11 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 		
 		if (doorB.intersects(map[11])) {
 			
-			doorMB.setDirection(1);
+			door[1].setDirection(1);
 			
 		} else if (doorB.intersects(map[15])) {
 		
-			doorMB.setDirection(0);
+			door[1].setDirection(0);
 
 		}
 		
@@ -226,11 +226,11 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 		
 		if (doorC.intersects(map[0])) {
 			
-			doorMC.setDirection(1);
+			door[2].setDirection(1);
 			
 		} else if (doorC.intersects(map[13])) {
 		
-			doorMC.setDirection(0);
+			door[2].setDirection(0);
 
 		}
 		
@@ -246,13 +246,13 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 				monsterM.setDirection(2);
 			}
 			if(showTitleScreen >= 2){
-				doorMA.setDirection(1);
+				door[0].setDirection(1);
 			}
 			if(showTitleScreen >= 2){
-				doorMB.setDirection(1);
+				door[1].setDirection(1);
 			}
 			if(showTitleScreen >= 2){
-				doorMC.setDirection(1);
+				door[2].setDirection(1);
 			}
 			
 		} 
@@ -478,11 +478,11 @@ public class GCJPanel extends JPanel implements KeyListener, ActionListener {
 			
 			monsterM.draw(g);
 			
-			doorMA.draw(g);
+			door[0].draw(g);
 			
-			doorMB.draw(g);
+			door[1].draw(g);
 			
-			doorMC.draw(g);
+			door[2].draw(g);
 		
 			if (showTitleScreen == 500) {
 		

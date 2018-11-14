@@ -4,57 +4,32 @@
 
 import java.awt.*;
 
-public class Mover {
+public abstract class Mover {
 
-	private static final int UP = 0;
-	private static final int DOWN = 1;
-	private static final int LEFT = 2;
-	private static final int RIGHT = 3;
+	protected static final int UP = 0;
+	protected static final int DOWN = 1;
+	protected static final int LEFT = 2;
+	protected static final int RIGHT = 3;
 
-	public static double mouseX;
-	public static double mouseY;
-	public static double speed;
+	public double xCord;
+	public double yCord;
+	public double speed;
 
-	private int direction;
+	protected int direction;
 	
-	public Mover(int left, int top) {
+	public Mover(double speed, double xCord, double yCord) {
 
-		speed = 1.6;
+		this.speed = speed;
 		direction = RIGHT;
-		mouseX = left;
-		mouseY = top;
+		this.xCord = xCord;
+		this.yCord = yCord;
 		
 	}
 
-	public void setDirection(int direction) {
-	
-		this.direction = direction;
-		
-	}
+	public abstract void setDirection(int direction);
 
-	public void move() {
+	public abstract void move();
 	
-		if (direction == RIGHT) {
-			mouseX = mouseX + speed;
-		}else if(direction == LEFT){
-			mouseX = mouseX - speed;
-		}else if(direction == UP){
-			mouseY = mouseY - speed;
-		}else if(direction == DOWN){
-			mouseY = mouseY + speed;
-		}
-		
-	}
-	
-	public void draw(Graphics g) {
-	
-		g.setColor(Color.YELLOW);
-		g.fillOval((int)mouseX, (int)mouseY, 10, 10);
-		g.setColor(Color.BLACK);
-		g.drawOval((int)mouseX, (int)mouseY, 10, 10);
-		
-	
-
-	}
+	public abstract void draw(Graphics g);
 	
 }
